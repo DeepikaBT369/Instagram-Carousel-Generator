@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import CanvasEditor from './components/CanvasEditor.js';
+import CanvasEditor from '../components/CanvasEditor';
 
 export default function Home() {
   const [step, setStep] = useState(1);
