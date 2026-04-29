@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Your Carousel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0d0d0d}
+.wrap{background:#0d0d0d;color:#fff;font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid #222}
+.back-btn{background:#1c1c1c;border:1px solid #333;color:#ccc;padding:5px 12px;border-radius:7px;font-size:12px;cursor:pointer}
+.topbar h1{font-size:18px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.hint{font-size:11px;color:#555;padding:6px 18px}
+.body{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;flex:1}
+.q{padding:14px 18px;border:1px solid #1a1a1a}
+.q.tl{border-right:1px solid #2a2a2a;border-bottom:1px solid #2a2a2a}
+.q.tr{border-bottom:1px solid #2a2a2a}
+.q.bl{border-right:1px solid #2a2a2a}
+.slide-box{background:#111;border-radius:10px;overflow:hidden;position:relative;width:100%;aspect-ratio:1;max-height:300px}
+.flower-bg{width:100%;height:58%;background:linear-gradient(155deg,#d4a06a 0%,#b87040 20%,#7a9e72 45%,#4a7ab0 75%,#7a5aaa 100%)}
+.slide-counter{position:absolute;top:10px;right:12px;font-size:12px;font-weight:600;color:#fff}
+.slide-word{position:absolute;bottom:14px;left:14px;font-size:38px;font-weight:900;color:#e8356b;text-transform:uppercase;letter-spacing:.02em}
+.dots-row{display:flex;gap:6px;margin-top:10px}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid #444;background:#1a1a1a;color:#888;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.dot.on{background:#fff;color:#000;border-color:#fff}
+.dl-btn{margin-top:10px;width:100%;background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:#666;text-transform:uppercase;margin-bottom:6px}
+.big-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
+.sub{font-size:12px;color:#999}
+.ctrl-row{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:3px;margin-top:10px}
+input[type=range]{width:100%;accent-color:#e8356b}
+select{width:100%;background:#1c1c1c;border:1px solid #2e2e2e;color:#fff;border-radius:7px;padding:7px 10px;font-size:12px;margin-top:6px;cursor:pointer}
+.color-row{display:flex;gap:14px;margin-top:10px}
+.c-wrap label{font-size:11px;color:#888;display:block;margin-bottom:4px}
+input[type=color]{width:44px;height:26px;border-radius:6px;border:none;cursor:pointer;background:none}
+.divider{border:none;border-top:1px solid #1e1e1e;margin:10px 0}
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.time-card{background:#1a1a1a;border-radius:7px;padding:8px 10px}
+.time-card.best{border:1px solid #e8356b55}
+.time-card .day{font-size:10px;color:#888}
+.time-card.best .day{color:#e8356b}
+.time-card .hr{font-size:13px;font-weight:700;color:#fff}
+.eng-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px}
+.eng{background:#1a1a1a;border-radius:7px;padding:8px;text-align:center}
+.eng-n{font-size:16px;font-weight:800;color:#fff}
+.eng-l{font-size:10px;color:#888;margin-top:1px}
+.eng-g{font-size:10px;color:#4caf50}
+.tip-text{font-size:12px;color:#bbb;line-height:1.6}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tag{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:20px;padding:3px 9px;font-size:11px;color:#999;cursor:pointer;transition:all .15s}
+.tag.on{background:#e8356b18;border-color:#e8356b66;color:#e8356b}
+.cap-text{font-size:12px;color:#bbb;line-height:1.6}
+.copy-btn{margin-top:8px;width:100%;background:#fff;color:#000;border:none;border-radius:7px;padding:9px;font-size:13px;font-weight:700;cursor:pointer}
+.slide-structure{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.slide-row{display:flex;align-items:center;gap:8px;background:#1a1a1a;border-radius:6px;padding:6px 10px;cursor:pointer;transition:all .15s}
+.slide-row.active{border:1px solid #e8356b55}
+.slide-num{font-size:10px;color:#666;width:14px}
+.slide-name{font-size:12px;color:#ccc;flex:1}
+.slide-type{font-size:10px;color:#888}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <button class="back-btn">← Back</button>
+    <h1>Edit Your Carousel</h1>
+  </div>
+  <div class="hint">Drag image to reposition · Drag text to move · Zoom slider to resize</div>
+  <div class="body">
+
+    <div class="q tl">
+      <div class="slide-box">
+        <div class="flower-bg"></div>
+        <div style="width:100%;height:42%;background:#0d0d0d"></div>
+        <div class="slide-counter">1/7</div>
+        <div class="slide-word" id="headline-preview">HAPPY</div>
+      </div>
+    </div>
+
+    <div class="q tr">
+      <div class="sec-label">Hook · Slide 1</div>
+      <div class="big-title">Get Fit Stay Happy</div>
+      <div class="sub">Start your fitness journey today</div>
+      <hr class="divider">
+      <div class="ctrl-row"><span>Image zoom</span><span id="zv">100%</span></div>
+      <input type="range" min="50" max="200" value="100" oninput="document.getElementById('zv').textContent=this.value+'%'">
+      <div class="ctrl-row" style="margin-top:10px"><span>Font</span></div>
+      <select onchange="document.getElementById('headline-preview').style.fontFamily=this.value">
+        <option value="system-ui">Bebas Neue</option>
+        <option value="Montserrat,sans-serif">Montserrat</option>
+        <option value="Oswald,sans-serif">Oswald</option>
+        <option value="Anton,sans-serif">Anton</option>
+        <option value="'Playfair Display',serif">Playfair Display</option>
+      </select>
+      <div class="ctrl-row"><span>Headline size</span><span id="sv">49px</span></div>
+      <input type="range" min="20" max="100" value="49" oninput="document.getElementById('sv').textContent=this.value+'px';document.getElementById('headline-preview').style.fontSize=this.value+'px'">
+      <div class="color-row">
+        <div class="c-wrap">
+          <label>Headline color</label>
+          <input type="color" value="#e8356b" oninput="document.getElementById('headline-preview').style.color=this.value">
+        </div>
+        <div class="c-wrap">
+          <label>Body color</label>
+          <input type="color" value="#e87a30">
+        </div>
+      </div>
+    </div>
+
+    <div class="q bl">
+      <div class="dots-row" id="dots-row">
+        <div class="dot on">1</div><div class="dot">2</div><div class="dot">3</div>
+        <div class="dot">4</div><div class="dot">5</div><div class="dot">6</div><div class="dot">7</div>
+      </div>
+      <button class="dl-btn">Download slide ↓</button>
+      <hr class="divider">
+      <div class="sec-label">Best time to post</div>
+      <div class="time-grid">
+        <div class="time-card best"><div class="day">Wednesday ★</div><div class="hr">6–9 pm</div></div>
+        <div class="time-card"><div class="day">Friday</div><div class="hr">5–8 pm</div></div>
+        <div class="time-card"><div class="day">Saturday</div><div class="hr">10–12 pm</div></div>
+        <div class="time-card"><div class="day">Sunday</div><div class="hr">7–9 pm</div></div>
+      </div>
+      <hr class="divider">
+      <div class="sec-label">Predicted engagement</div>
+      <div class="eng-row">
+        <div class="eng"><div class="eng-n">8.4%</div><div class="eng-l">Reach</div><div class="eng-g">↑ +2.1%</div></div>
+        <div class="eng"><div class="eng-n">3.2%</div><div class="eng-l">Saves</div><div class="eng-g">↑ avg</div></div>
+        <div class="eng"><div class="eng-n">1.8%</div><div class="eng-l">Shares</div><div class="eng-g">↑ +0.4%</div></div>
+      </div>
+    </div>
+
+    <div class="q br">
+      <div class="sec-label">Hook tip</div>
+      <div class="tip-text">Bold single-word hooks with high-contrast color drive 3× more swipe-throughs than question hooks in the fitness niche.</div>
+      <hr class="divider">
+      <div class="sec-label">Hashtag suggestions</div>
+      <div class="tags" id="tags">
+        <div class="tag on">#fitness</div><div class="tag on">#motivation</div><div class="tag on">#health</div>
+        <div class="tag">#gym</div><div class="tag">#wellness</div><div class="tag">#lifestyle</div><div class="tag">#fitfam</div>
+      </div>
+      <hr class="divider">
+      <div class="sec-label">Instagram caption</div>
+      <div class="cap-text" id="caption-text">Get fit and stay happy 🤸💪 Follow us for more fitness tips and tricks #fitness #motivation #health</div>
+      <button class="copy-btn" id="copy-btn">Copy caption</button>
+      <hr class="divider">
+      <div class="sec-label">Slide structure</div>
+      <div class="slide-structure" id="slide-list">
+        <div class="slide-row active"><div class="slide-num">1</div><div class="slide-name">Get Fit Stay Happy</div><div class="slide-type">Hook</div></div>
+        <div class="slide-row"><div class="slide-num">2</div><div class="slide-name">Why fitness matters</div><div class="slide-type">Problem</div></div>
+        <div class="slide-row"><div class="slide-num">3</div><div class="slide-name">The 3 pillars</div><div class="slide-type">Value</div></div>
+        <div class="slide-row"><div class="slide-num">4</div><div class="slide-name">Common mistakes</div><div class="slide-type">Value</div></div>
+        <div class="slide-row"><div class="slide-num">5</div><div class="slide-name">Quick wins to start</div><div class="slide-type">Tips</div></div>
+        <div class="slide-row"><div class="slide-num">6</div><div class="slide-name">Your 7-day plan</div><div class="slide-type">Solution</div></div>
+        <div class="slide-row"><div class="slide-num">7</div><div class="slide-name">Follow for more</div><div class="slide-type">CTA</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+  function setActive(idx) {
+    document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('on', i===idx));
+    document.querySelectorAll('.slide-row').forEach((r,i) => r.classList.toggle('active', i===idx));
+    document.querySelector('.slide-counter').textContent = (idx+1) + '/7';
+  }
+  document.getElementById('dots-row').addEventListener('click', e => {
+    const dot = e.target.closest('.dot');
+    if (dot) setActive(Array.from(dot.parentNode.children).indexOf(dot));
+  });
+  document.getElementById('slide-list').addEventListener('click', e => {
+    const row = e.target.closest('.slide-row');
+    if (row) setActive(Array.from(row.parentNode.children).indexOf(row));
+  });
+  document.getElementById('tags').addEventListener('click', e => {
+    const tag = e.target.closest('.tag');
+    if (tag) tag.classList.toggle('on');
+  });
+  document.getElementById('copy-btn').addEventListener('click', function() {
+    navigator.clipboard.writeText(document.getElementById('caption-text').textContent);
+    this.textContent = 'Copied!';
+    setTimeout(() => this.textContent = 'Copy caption', 1500);
+  });
+</script>
+</body>
+</html>
